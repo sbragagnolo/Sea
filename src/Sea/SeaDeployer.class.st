@@ -5,16 +5,17 @@ Class {
 	#name : #SeaDeployer,
 	#superclass : #Object,
 	#instVars : [
-		'repository'
+		'imagesRepository',
+		'virtualMachineRepository'
 	],
 	#category : #'Sea-Core'
 }
 
 { #category : #deploy }
-SeaDeployer >> deployZip: aFileReference name: aString [
+SeaDeployer >> deployImageZip: aFileReference name: aString [
 
 	| repo newImage |
-	repo := repository repositoryFor: aString.
+	repo := imagesRepository repositoryFor: aString.
 	newImage := repo newImage.
 
 	self assert: newImage directory exists not.
@@ -30,14 +31,45 @@ SeaDeployer >> deployZip: aFileReference name: aString [
 ]
 
 { #category : #deploy }
+SeaDeployer >> deployVmZip: aFileReference version: aVersion [
+
+	| repo newVirtualMachine |
+	repo := virtualMachineRepository repositoryFor: aVersion.
+	newVirtualMachine := repo newVirtualMachine.
+
+	self assert: newVirtualMachine directory exists not.
+
+	newVirtualMachine directory ensureCreateDirectory.
+
+	LibC system: ('unzip {1} -d {2}' format: {
+				 aFileReference asFileReference fullName.
+				 newVirtualMachine directory asFileReference fullName }).
+	self assert: newVirtualMachine directory exists.
+	self assert: (newVirtualMachine directory / 'pharo.version') exists.
+	self assert: (newVirtualMachine directory / 'os.name') exists.
+	^ newVirtualMachine
+]
+
+{ #category : #deploy }
 SeaDeployer >> eraseRepository [
 
-	^ repository eraseRepository
+	imagesRepository eraseRepository.
+	virtualMachineRepository eraseRepository
 ]
 
 { #category : #deploy }
 SeaDeployer >> initialize [
 
 	super initialize.
-	repository := SeaLocalRepository new imagesRepository
+	imagesRepository := SeaLocalRepository new imagesRepository.
+	virtualMachineRepository := SeaLocalRepository new
+		                            virtualMachinesRepository
+]
+
+{ #category : #deploy }
+SeaDeployer >> resolveVirtualMachine: aVersionNumber [
+	virtualMachineRepository virtualMachinesVersion: aVersionNumber ifNone: [ 
+		
+	
+	 ]
 ]

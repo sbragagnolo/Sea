@@ -66,6 +66,15 @@ SeaImage >> name: anUndefinedObject [
 	name := anUndefinedObject
 ]
 
+{ #category : #accessing }
+SeaImage >> newInstance [
+
+	^ SeaImageInstance new
+		  image: self;
+		  pid: self spawnInstance;
+		  yourself
+]
+
 { #category : #'as yet unclassified' }
 SeaImage >> pharoVersion [
 
