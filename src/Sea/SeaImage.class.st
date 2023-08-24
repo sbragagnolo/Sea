@@ -10,7 +10,8 @@ Class {
 		'imageFile',
 		'changesFile',
 		'tags',
-		'directory'
+		'directory',
+		'repository'
 	],
 	#category : #'Sea-Core'
 }
@@ -69,6 +70,12 @@ SeaImage >> name: anUndefinedObject [
 SeaImage >> pharoVersion [
 
 	^ (self directory / 'pharo.version') readStream upToEnd asNumber
+]
+
+{ #category : #accessing }
+SeaImage >> repository: aSeaImageRepository [
+
+	repository := aSeaImageRepository
 ]
 
 { #category : #accessing }

@@ -23,12 +23,6 @@ SeaImageRepository >> imagesRepository [
 	^ self
 ]
 
-{ #category : #accessing }
-SeaImageRepository >> initialize [
-	super initialize.
-	directory := self class imagesRootDirectory
-]
-
 { #category : #'instance creation' }
 SeaImageRepository >> newImage [
 	| version |
@@ -41,6 +35,11 @@ SeaImageRepository >> newImage [
 		  directory:
 			  self directory / ('Version{1}' format: { version asString });
 		  yourself
+]
+
+{ #category : #accessing }
+SeaImageRepository >> parent: aSeaLocalRepository [ 
+	parent := aSeaLocalRepository
 ]
 
 { #category : #'instance creation' }

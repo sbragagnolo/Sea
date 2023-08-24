@@ -42,7 +42,7 @@ SeaLocalRepository >> imagesRepository [
 { #category : #accessing }
 SeaLocalRepository >> initialize [
 	super initialize.
-	directory := self class imagesRootDirectory
+	directory := self class rootDirectory
 ]
 
 { #category : #accessing }

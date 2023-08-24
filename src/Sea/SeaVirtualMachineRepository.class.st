@@ -14,12 +14,6 @@ SeaVirtualMachineRepository >> imagesRepository [
 ]
 
 { #category : #accessing }
-SeaVirtualMachineRepository >> initialize [
-	super initialize.
-	directory := self class virtualMachinesRootDirectory 
-]
-
-{ #category : #accessing }
 SeaVirtualMachineRepository >> virtualMachinesRepository [
 
 	^ self

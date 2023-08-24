@@ -39,5 +39,5 @@ SeaDeployer >> eraseRepository [
 SeaDeployer >> initialize [
 
 	super initialize.
-	repository := SeaLocalRepository new
+	repository := SeaLocalRepository new imagesRepository
 ]
