@@ -23,6 +23,13 @@ SeaAbstractTest >> tearDown [
 ]
 
 { #category : #running }
+SeaAbstractTest >> vmZipFile [
+
+	^ 'pharo-local/iceberg/sbragagnolo/sea/resources/vm110-MacOs.zip'
+		  asFileReference
+]
+
+{ #category : #running }
 SeaAbstractTest >> zipFile [
 
 	^ 'pharo-local/iceberg/sbragagnolo/sea/resources/pharo.zip'
