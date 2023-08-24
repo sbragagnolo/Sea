@@ -28,7 +28,7 @@ SeaLocalRepository >> directory: aFileReference [
 
 { #category : #accessing }
 SeaLocalRepository >> eraseRepository [
-	directory deleteAll
+	directory ensureDeleteAll
 ]
 
 { #category : #'instance creation' }
@@ -61,7 +61,8 @@ SeaLocalRepository >> repositoryFor: aString [
 	^ self class new
 		  directory: self directory / aString;
 		  name: aString;
-		  parent: self yourself
+		  parent: self;
+		  yourself
 ]
 
 { #category : #'instance creation' }

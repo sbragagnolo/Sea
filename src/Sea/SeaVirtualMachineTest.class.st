@@ -8,7 +8,7 @@ Class {
 SeaVirtualMachineTest >> testDeployerProducesPharoScriptFile [
 
 	| vm |
-	vm := sea deployVmZip: self vmZipFile.
+	vm := sea deployVmZip: self vmZipFile version: 110.
 	self assert: vm pharoScript exists
 ]
 
