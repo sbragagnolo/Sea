@@ -14,3 +14,10 @@ SeaAbstractTest >> setUp [
 	sea := Sea deployer.
 	
 ]
+
+{ #category : #running }
+SeaAbstractTest >> zipFile [
+
+	^ 'pharo-local/iceberg/sbragagnolo/sea/resources/pharo.zip'
+		  asFileReference
+]

@@ -8,27 +8,25 @@ Class {
 SeaDeployerTest >> testDeployerProducesChangesFile [
 
 	| image |
-	image := sea deployZip: 'pharo.zip' name: #example.
-	self assert: image changesFile exists.
-	
+	image := sea deployZip: self zipFile name: #example.
+	self assert: image changesFile exists
 ]
 
 { #category : #tests }
 SeaDeployerTest >> testDeployerProducesImageFile [
 
 	| image |
-	image := sea deployZip: 'pharo.zip' name: #example.
-	self assert: image imageFile exists.
-	
+	image := sea deployZip: self zipFile name: #example.
+	self assert: image imageFile exists
 ]
 
 { #category : #tests }
 SeaDeployerTest >> testDeployerProducesMultipleVersions [
 
 	| image1 image2 |
-	image1 := sea deployZip: 'pharo.zip' name: #example.
+	image1 := sea deployZip: self zipFile  name: #example.
 	self assert: image1 version equals: 1.
-	image2 := sea deployZip: 'pharo.zip' name: #example.
+	image2 := sea deployZip: self zipFile  name: #example.
 	self assert: image2 version equals: 2.
 ]
 
@@ -36,7 +34,7 @@ SeaDeployerTest >> testDeployerProducesMultipleVersions [
 SeaDeployerTest >> testDeployerProducesPharoVersion [
 
 	| image |
-	image := sea deployZip: 'pharo.zip' name: #example.
+	image := sea deployZip: self zipFile name: #example.
 	self assert: image pharoVersion equals: '11.0.0'
 ]
 
@@ -44,6 +42,6 @@ SeaDeployerTest >> testDeployerProducesPharoVersion [
 SeaDeployerTest >> testDeployerProducesSeaImage [
 
 	| image |
-	image := sea deployZip: 'pharo.zip' name: #example.
-	self assert: (image isKindOf: SeaImage).
+	image := sea deployZip: self zipFile name: #example.
+	self assert: (image isKindOf: SeaImage)
 ]
