@@ -2,7 +2,9 @@ Class {
 	#name : #SeaStartTest,
 	#superclass : #SeaAbstractTest,
 	#instVars : [
-		'image'
+		'image',
+		'vm',
+		'starter'
 	],
 	#category : #'Sea-Test'
 }
@@ -11,10 +13,15 @@ Class {
 SeaStartTest >> setUp [
 
 	super setUp.
-	image := sea deployImageZip: self zipFile name: #test
+	image := sea deployImageZip: self zipFile name: #test.
+	vm := sea deployVmZip: self vmZipFile version: 110.
+	starter := Sea starter. 
 ]
 
-{ #category : #tests }
-SeaStartTest >> testImageInstance [
-	
+{ #category : #running }
+SeaStartTest >> testStartPharoInstanceWithName [
+
+	| instance |
+	instance := starter startInstance: #test.
+	self assert: instance pid isNumber
 ]

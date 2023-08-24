@@ -17,6 +17,15 @@ SeaImageRepository >> currentMaxVersion [
 		  max + 1
 ]
 
+{ #category : #accessing }
+SeaImageRepository >> imageVersion: aString [
+
+	^ self newImage
+		  directory: self directory / aString;
+		  version: (aString copyReplaceAll: 'Version' with: '') asNumber;
+		  yourself
+]
+
 { #category : #'instance creation' }
 SeaImageRepository >> imagesRepository [
 
