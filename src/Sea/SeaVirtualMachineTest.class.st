@@ -16,7 +16,7 @@ SeaVirtualMachineTest >> testDeployerProducesPharoScriptFile [
 SeaVirtualMachineTest >> testDeployerProducesPharoUIScriptFile [
 
 	| vm |
-	vm := sea deployVmZip: self vmZipFile.
+	vm := sea deployVmZip: self vmZipFile version: 110.
 	self assert: vm pharoUiScript exists
 ]
 
@@ -24,7 +24,7 @@ SeaVirtualMachineTest >> testDeployerProducesPharoUIScriptFile [
 SeaVirtualMachineTest >> testDeployerProducesPharoVMFolder [
 
 	| vm |
-	vm := sea deployVmZip: self vmZipFile.
+	vm := sea deployVmZip: self vmZipFile version: 110.
 	self assert: vm pharoVmFolder exists
 ]
 
@@ -32,7 +32,7 @@ SeaVirtualMachineTest >> testDeployerProducesPharoVMFolder [
 SeaVirtualMachineTest >> testDeployerProducesVm [
 
 	| vm |
-	vm := sea deployVmZip: self vmZipFile.
+	vm := sea deployVmZip: self vmZipFile version: 110.
 	self assert: (vm isKindOf: SeaVirtualMachine)
 ]
 
@@ -40,15 +40,15 @@ SeaVirtualMachineTest >> testDeployerProducesVm [
 SeaVirtualMachineTest >> testDeployerProducesVmMacOs [
 
 	| vm |
-	vm := sea deployVmZip: self vmZipFile.
-	self assert: vm os equals: MacOSXPlatform.
+	vm := sea deployVmZip: self vmZipFile version: 110.
+	self assert: vm os isMacOS .
 ]
 
 { #category : #tests }
 SeaVirtualMachineTest >> testDeployerProducesVmVersion110 [
 
 	| vm |
-	vm := sea deployVmZip: self vmZipFile.
-	self assert: vm vmVersion equals: 110.
+	vm := sea deployVmZip: self vmZipFile version: 110.
+	self assert: vm version equals: 110.
 	
 ]

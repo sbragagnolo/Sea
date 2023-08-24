@@ -54,7 +54,7 @@ SeaDeployer >> deployVmZip: aFileReference version: aVersion [
 		^ self error: 'Already exists' ].
 	newVirtualMachine directory renameTo: osname.
 	newVirtualMachine osname: osname. 
-	self halt.
+
 	^ newVirtualMachine
 ]
 
