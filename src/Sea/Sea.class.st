@@ -3,3 +3,9 @@ Class {
 	#superclass : #Object,
 	#category : #'Sea-Core'
 }
+
+{ #category : #convenience }
+Sea class >> deployer [
+
+	^ SeaDeployer new
+]
