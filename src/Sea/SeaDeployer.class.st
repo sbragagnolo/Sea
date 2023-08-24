@@ -1,3 +1,6 @@
+"
+I am in charge of deploying zip files into a local repository.
+"
 Class {
 	#name : #SeaDeployer,
 	#superclass : #Object,
@@ -14,8 +17,22 @@ SeaDeployer >> deployZip: aFileReference name: aString [
 	repo := repository repositoryFor: aString.
 	newImage := repo newImage.
 
-	GZipReadStream unzip: aFileReference to: newImage directory.
+	self assert: newImage directory exists not.
+
+	newImage directory ensureCreateDirectory.
+	
+	LibC system: ('unzip {1} -d {2}' format: {
+				 aFileReference asFileReference fullName.
+				 newImage directory asFileReference fullName }).
+	self assert: newImage directory exists.
+	self assert: (newImage directory / 'pharo.version') exists.
 	^ newImage
+]
+
+{ #category : #deploy }
+SeaDeployer >> eraseRepository [
+
+	^ repository eraseRepository
 ]
 
 { #category : #deploy }

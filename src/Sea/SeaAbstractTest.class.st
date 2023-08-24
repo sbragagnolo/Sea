@@ -16,6 +16,13 @@ SeaAbstractTest >> setUp [
 ]
 
 { #category : #running }
+SeaAbstractTest >> tearDown [
+
+	super tearDown.
+	sea eraseRepository
+]
+
+{ #category : #running }
 SeaAbstractTest >> zipFile [
 
 	^ 'pharo-local/iceberg/sbragagnolo/sea/resources/pharo.zip'

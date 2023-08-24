@@ -1,3 +1,6 @@
+"
+Entry point 
+"
 Class {
 	#name : #Sea,
 	#superclass : #Object,

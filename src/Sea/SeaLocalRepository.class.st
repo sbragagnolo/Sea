@@ -16,17 +16,6 @@ SeaLocalRepository class >> rootDirectory [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
-SeaLocalRepository >> currentMaxVersion [
-
-	^ ({ 0 } , (self directory directories
-		    select: [ :dir |
-			    (dir basename copyReplaceAll: 'version' with: '') isAllDigits ]
-		    thenCollect: [ :dir |
-		    (dir basename copyReplaceAll: 'version' with: '') asNumber ]))
-		  max + 1
-]
-
 { #category : #accessing }
 SeaLocalRepository >> directory [
 	^ directory ensureCreateDirectory
@@ -38,43 +27,46 @@ SeaLocalRepository >> directory: aFileReference [
 ]
 
 { #category : #accessing }
-SeaLocalRepository >> initialize [
+SeaLocalRepository >> eraseRepository [
+	directory deleteAll
+]
 
+{ #category : #'instance creation' }
+SeaLocalRepository >> imagesRepository [
+	^ SeaImageRepository new
+		  directory: self directory / #images;
+		  parent: self;
+		  yourself
+]
+
+{ #category : #accessing }
+SeaLocalRepository >> initialize [
 	super initialize.
-	directory := self class rootDirectory
+	directory := self class imagesRootDirectory
 ]
 
 { #category : #accessing }
 SeaLocalRepository >> name [
-
 	^ name
 ]
 
 { #category : #accessing }
 SeaLocalRepository >> name: aName [
-
 	name := aName
-]
-
-{ #category : #'instance creation' }
-SeaLocalRepository >> newImage [
-
-	| version |
-	version := self currentMaxVersion.
-
-	^ SeaImage new
-		  name: self name;
-		  version: version;
-		  directory:
-			  self directory / ('Version{1}' format: { version asString });
-		  yourself
 ]
 
 { #category : #accessing }
 SeaLocalRepository >> repositoryFor: aString [
 
-	^ SeaLocalRepository new
+	^ self class new
 		  directory: self directory / aString;
 		  name: aString;
+		  parent: self yourself
+]
+
+{ #category : #'instance creation' }
+SeaLocalRepository >> virtualMachinesRepository [
+	^ SeaVirtualMachineRepository new
+		  directory: self directory / #virtualMachines;
 		  yourself
 ]
