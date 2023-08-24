@@ -1,11 +1,11 @@
 Class {
-	#name : #SeaDeployerTest,
+	#name : #SeaImageDeployTest,
 	#superclass : #SeaAbstractTest,
 	#category : #'Sea-Test'
 }
 
 { #category : #tests }
-SeaDeployerTest >> testDeployerProducesChangesFile [
+SeaImageDeployTest >> testDeployerProducesChangesFile [
 
 	| image |
 	image := sea deployImageZip: self zipFile name: #example.
@@ -13,7 +13,7 @@ SeaDeployerTest >> testDeployerProducesChangesFile [
 ]
 
 { #category : #tests }
-SeaDeployerTest >> testDeployerProducesImageFile [
+SeaImageDeployTest >> testDeployerProducesImageFile [
 
 	| image |
 	image := sea deployImageZip: self zipFile name: #example.
@@ -21,7 +21,7 @@ SeaDeployerTest >> testDeployerProducesImageFile [
 ]
 
 { #category : #tests }
-SeaDeployerTest >> testDeployerProducesMultipleVersions [
+SeaImageDeployTest >> testDeployerProducesMultipleVersions [
 
 	| image1 image2 |
 	image1 := sea deployImageZip: self zipFile  name: #example.
@@ -32,7 +32,7 @@ SeaDeployerTest >> testDeployerProducesMultipleVersions [
 ]
 
 { #category : #tests }
-SeaDeployerTest >> testDeployerProducesPharoVersion [
+SeaImageDeployTest >> testDeployerProducesPharoVersion [
 
 	| image |
 	image := sea deployImageZip: self zipFile name: #example.
@@ -40,7 +40,7 @@ SeaDeployerTest >> testDeployerProducesPharoVersion [
 ]
 
 { #category : #tests }
-SeaDeployerTest >> testDeployerProducesSeaImage [
+SeaImageDeployTest >> testDeployerProducesSeaImage [
 
 	| image |
 	image := sea deployImageZip: self zipFile name: #example.

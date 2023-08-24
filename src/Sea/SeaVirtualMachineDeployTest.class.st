@@ -1,11 +1,11 @@
 Class {
-	#name : #SeaVirtualMachineTest,
+	#name : #SeaVirtualMachineDeployTest,
 	#superclass : #SeaAbstractTest,
 	#category : #'Sea-Test'
 }
 
 { #category : #tests }
-SeaVirtualMachineTest >> testDeployerProducesPharoScriptFile [
+SeaVirtualMachineDeployTest >> testDeployerProducesPharoScriptFile [
 
 	| vm |
 	vm := sea deployVmZip: self vmZipFile version: 110.
@@ -13,7 +13,7 @@ SeaVirtualMachineTest >> testDeployerProducesPharoScriptFile [
 ]
 
 { #category : #tests }
-SeaVirtualMachineTest >> testDeployerProducesPharoUIScriptFile [
+SeaVirtualMachineDeployTest >> testDeployerProducesPharoUIScriptFile [
 
 	| vm |
 	vm := sea deployVmZip: self vmZipFile version: 110.
@@ -21,7 +21,7 @@ SeaVirtualMachineTest >> testDeployerProducesPharoUIScriptFile [
 ]
 
 { #category : #tests }
-SeaVirtualMachineTest >> testDeployerProducesPharoVMFolder [
+SeaVirtualMachineDeployTest >> testDeployerProducesPharoVMFolder [
 
 	| vm |
 	vm := sea deployVmZip: self vmZipFile version: 110.
@@ -29,7 +29,7 @@ SeaVirtualMachineTest >> testDeployerProducesPharoVMFolder [
 ]
 
 { #category : #tests }
-SeaVirtualMachineTest >> testDeployerProducesVm [
+SeaVirtualMachineDeployTest >> testDeployerProducesVm [
 
 	| vm |
 	vm := sea deployVmZip: self vmZipFile version: 110.
@@ -37,7 +37,7 @@ SeaVirtualMachineTest >> testDeployerProducesVm [
 ]
 
 { #category : #tests }
-SeaVirtualMachineTest >> testDeployerProducesVmMacOs [
+SeaVirtualMachineDeployTest >> testDeployerProducesVmMacOs [
 
 	| vm |
 	vm := sea deployVmZip: self vmZipFile version: 110.
@@ -45,7 +45,7 @@ SeaVirtualMachineTest >> testDeployerProducesVmMacOs [
 ]
 
 { #category : #tests }
-SeaVirtualMachineTest >> testDeployerProducesVmVersion110 [
+SeaVirtualMachineDeployTest >> testDeployerProducesVmVersion110 [
 
 	| vm |
 	vm := sea deployVmZip: self vmZipFile version: 110.
