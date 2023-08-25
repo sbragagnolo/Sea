@@ -28,9 +28,6 @@ SeaStartTest >> tearDown [
 
 { #category : #running }
 SeaStartTest >> testStartPharoInstanceGetsARunningInstance [
-	" 
-	Sea deployer eraseRepository 
-	"
 
 	instance := starter startInstance: #test.
 	self assert: instance isRunning.

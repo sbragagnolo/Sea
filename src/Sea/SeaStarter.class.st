@@ -36,8 +36,7 @@ SeaStarter >> startInstanceImage: aSeaImage virtualMachine: aSeaVirtualMachine [
 	process workingDirectory: aSeaImage directory fullName.
 
 	process loginShellCommand: ('"{1}" "{2}"' format: {
-				 (aSeaVirtualMachine directory / 'pharo-vm' / 'Pharo.app'
-				  / 'Contents' / 'MacOS' / 'Pharo') fullName.
+				 aSeaVirtualMachine vmBinary fullName.
 				 aSeaImage imageFile fullName }).
 	process run.
 	instance := SeaRunningInstance new

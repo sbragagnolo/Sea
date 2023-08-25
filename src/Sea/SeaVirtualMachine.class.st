@@ -112,3 +112,12 @@ SeaVirtualMachine >> version [
 SeaVirtualMachine >> version: anInteger [ 
 	version := anInteger 
 ]
+
+{ #category : #'as yet unclassified' }
+SeaVirtualMachine >> vmBinary [
+
+	OSPlatform current isMacOS ifTrue: [
+		^ self directory / 'pharo-vm' / 'Pharo.app' / 'Contents' / 'MacOS'
+		  / 'Pharo' ].
+	self error: 'Unsupported platform'
+]
