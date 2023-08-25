@@ -33,23 +33,28 @@ SeaAPI >> configureImageApi [
 SeaAPI >> configureInstanceApi [
 
 	self teapot
-		GET: '/instance/list' -> [ :req | self handleForgot: req ];
-		GET: '/instance/list/<imageName>:<vmVersion>'
-			-> [ :req | self handleForgot: req ];
-		GET:
-			'/instance/get/<instanceId>' -> [ :req | self handleForgot: req ];
-		GET: '/instance/connection/<instanceId>'
-			-> [ :req | self handleForgot: req ];
-		POST:
-			'/instance/start/<imageName>' -> [ :req | self handleForgot: req ];
-		POST: '/instance/start/<imageName>/<vmName>'
-			-> [ :req | self handleForgot: req ];
-		POST:
-			'/instance/stop/<instanceId>' -> [ :req | self handleForgot: req ];
-		POST: '/instance/stopAll' -> [ :req | self handleForgot: req ];
-		POST:
-			'/instance/status/<instanceId>'
-			-> [ :req | self handleForgot: req ]
+		GET: '/instance/list' -> [ :req | self instanceAPI list ];
+		GET: '/instance/list/<imageName>:<vmVersion>' -> [ :req |
+				self instanceAPI
+					list: (self valueOrNil: #imageName request: req)
+					version: (self valueOrNil: #vmVersion request: req) ];
+		GET: '/instance/get/<instanceId>' -> [ :req |
+				self instanceAPI get: (self valueOrNil: #instanceId request: req) ];
+		GET: '/instance/connection/<instanceId>' -> [ :req |
+				self instanceAPI connection:
+						(self valueOrNil: #instanceId request: req) ];
+		POST: '/instance/start/<imageName>' -> [ :req |
+				self instanceAPI start: (self valueOrNil: #imageName request: req) ];
+		POST: '/instance/start/<imageName>/<vmName>' -> [ :req |
+				self instanceAPI
+					start: (self valueOrNil: #imageName request: req)
+					vm: (self valueOrNil: #vmName request: req) ];
+		POST: '/instance/stop/<instanceId>' -> [ :req |
+				self instanceAPI stop: (self valueOrNil: #instanceId request: req) ];
+		POST: '/instance/stopAll' -> [ :req | self instanceAPI stopAll ];
+		POST: '/instance/status/<instanceId>' -> [ :req |
+				self instanceAPI status:
+						(self valueOrNil: #instanceId request: req) ]
 ]
 
 { #category : #initialization }
