@@ -36,7 +36,7 @@ SeaImageDeployTest >> testDeployerProducesPharoVersion [
 
 	| image |
 	image := sea deployImageZip: self zipFile name: #example.
-	self assert: image pharoVersion equals: 100
+	self assert: image pharoVersion equals: 110
 ]
 
 { #category : #tests }

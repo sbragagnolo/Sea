@@ -47,13 +47,15 @@ SeaDeployer >> deployVmZip: aFileReference version: aVersion [
 	self assert: newVirtualMachine directory exists.
 	self assert: (newVirtualMachine directory / 'pharo.version') exists.
 	self assert: (newVirtualMachine directory / 'os.name') exists.
+
 	osname := (newVirtualMachine directory / 'os.name') readStream
-		          upToEnd printStringLimitedTo: 10.
+		          upToEnd.
+	osname copyFrom: 1 to: (osname size min: 10).
 	(repo directory / osname) exists ifTrue: [
 		newVirtualMachine directory deleteAll.
 		^ self error: 'Already exists' ].
 	newVirtualMachine directory renameTo: osname.
-	newVirtualMachine osname: osname. 
+	newVirtualMachine osname: osname.
 
 	^ newVirtualMachine
 ]

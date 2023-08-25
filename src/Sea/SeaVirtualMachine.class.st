@@ -30,7 +30,7 @@ SeaVirtualMachine >> name: aString [
 { #category : #'as yet unclassified' }
 SeaVirtualMachine >> os [
 
-	osname asLowercase = '''mac os''' ifTrue: [
+	osname asLowercase = 'mac os' ifTrue: [
 		^ OSPlatform current isMacOS
 			  ifTrue: [ OSPlatform current ]
 			  ifFalse: [ MacOSXPlatform new ] ].

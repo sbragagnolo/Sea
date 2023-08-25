@@ -35,6 +35,15 @@ SeaStarter >> startInstanceImage: aSeaImage [
 ]
 
 { #category : #'as yet unclassified' }
+SeaStarter >> startInstanceImage: aSeaImage virtualMachine: aSeaVirtualMachine [
+
+	LibC runCommand: ('{1} {2} & ' format: ({
+				  aSeaVirtualMachine pharoUiScript.
+				  aSeaImage imageFile } collect: [ :a |
+				  a fullName copyReplaceAll: ' ' with: '\ ' ]))
+]
+
+{ #category : #'as yet unclassified' }
 SeaStarter >> virtualMachineRepository [
 
 	^ SeaLocalRepository new virtualMachinesRepository
