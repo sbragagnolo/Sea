@@ -5,10 +5,9 @@ Class {
 		'name',
 		'version',
 		'repository',
-		'directory',
-		'osname'
+		'directory'
 	],
-	#category : #'Sea-Test'
+	#category : #'Sea-Core'
 }
 
 { #category : #accessing }
@@ -22,6 +21,23 @@ SeaVirtualMachine >> directory: aFileReference [
 	directory := aFileReference
 ]
 
+{ #category : #'as yet unclassified' }
+SeaVirtualMachine >> missingFiles [
+
+	^ {
+		  self directory.
+		  self pharoVersionFile.
+		  self pharoVmFolder.
+		  self osNameFile.
+		  self pharoScript.
+		  self pharoUiScript } reject: [ :f | f exists ]
+]
+
+{ #category : #accessing }
+SeaVirtualMachine >> name [
+	^ name
+]
+
 { #category : #accessing }
 SeaVirtualMachine >> name: aString [ 
 	name := aString 
@@ -30,7 +46,7 @@ SeaVirtualMachine >> name: aString [
 { #category : #'as yet unclassified' }
 SeaVirtualMachine >> os [
 
-	osname asLowercase = 'mac os' ifTrue: [
+	self osname asLowercase = 'mac os' ifTrue: [
 		^ OSPlatform current isMacOS
 			  ifTrue: [ OSPlatform current ]
 			  ifFalse: [ MacOSXPlatform new ] ].
@@ -38,8 +54,17 @@ SeaVirtualMachine >> os [
 ]
 
 { #category : #'as yet unclassified' }
-SeaVirtualMachine >> osname: aString [ 
-	osname := aString.
+SeaVirtualMachine >> osNameFile [
+
+	^ self directory / 'os.name'
+]
+
+{ #category : #'as yet unclassified' }
+SeaVirtualMachine >> osname [
+
+	| str |
+	str := self osNameFile readStream upToEnd.
+	^ str copyFrom: 1 to: (str size min: 10)
 ]
 
 { #category : #accessing }
@@ -52,6 +77,18 @@ SeaVirtualMachine >> pharoScript [
 SeaVirtualMachine >> pharoUiScript [
 
 	^ self directory / 'pharo-ui'
+]
+
+{ #category : #accessing }
+SeaVirtualMachine >> pharoVersion [
+
+	^ self pharoVersionFile readStream upToEnd asNumber
+]
+
+{ #category : #accessing }
+SeaVirtualMachine >> pharoVersionFile [
+
+	^ (self directory / 'pharo.version') 
 ]
 
 { #category : #'as yet unclassified' }

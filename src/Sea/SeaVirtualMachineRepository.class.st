@@ -41,7 +41,6 @@ SeaVirtualMachineRepository >> virtualMachine: anInteger osname: anOsName [
 			, anOsName ].
 	^ (repo newVirtualMachine: anInteger)
 		  directory: repo directory / anOsName;
-		  osname: anOsName;
 		  yourself
 ]
 

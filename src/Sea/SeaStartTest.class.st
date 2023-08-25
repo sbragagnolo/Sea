@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'image',
 		'vm',
-		'starter'
+		'starter',
+		'instance'
 	],
 	#category : #'Sea-Test'
 }
@@ -19,9 +20,30 @@ SeaStartTest >> setUp [
 ]
 
 { #category : #running }
-SeaStartTest >> testStartPharoInstanceWithName [
+SeaStartTest >> tearDown [
 
-	| instance |
+	instance stop.
+	super tearDown
+]
+
+{ #category : #running }
+SeaStartTest >> testStartPharoInstanceGetsARunningInstance [
+	" 
+	Sea deployer eraseRepository 
+	"
+
 	instance := starter startInstance: #test.
-	self assert: instance pid isNumber
+	self assert: instance isRunning.
+	
+]
+
+{ #category : #running }
+SeaStartTest >> testStartPharoInstanceWithName [
+	" 
+	Sea deployer eraseRepository 
+	"
+
+	instance := starter startInstance: #test.
+	self assert: instance image name equals: #test.
+	self assert: instance virtualMachine name equals: #'110'
 ]

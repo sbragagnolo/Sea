@@ -1,14 +1,8 @@
 Class {
 	#name : #SeaStarter,
-	#superclass : #Object,
+	#superclass : #SeaService,
 	#category : #'Sea-Core'
 }
-
-{ #category : #'as yet unclassified' }
-SeaStarter >> imageRepository [
-
-	^ SeaLocalRepository new imagesRepository
-]
 
 { #category : #'as yet unclassified' }
 SeaStarter >> startInstance: aString [
@@ -20,31 +14,37 @@ SeaStarter >> startInstance: aString [
 SeaStarter >> startInstance: anImageName version: aVersionString [
 
 	^ self startInstanceImage:
-		  ((self imageRepository repositoryFor: anImageName) imageVersion:
+		  ((imagesRepository repositoryFor: anImageName) imageVersion:
 			   aVersionString)
 ]
 
 { #category : #'as yet unclassified' }
 SeaStarter >> startInstanceImage: aSeaImage [
 
-	self
-		startInstanceImage: aSeaImage
-		virtualMachine: (self virtualMachineRepository
-				 virtualMachine: aSeaImage pharoVersion
-				 osname: OSPlatform current name)
+	^ self
+		  startInstanceImage: aSeaImage
+		  virtualMachine: (virtualMachineRepository
+				   virtualMachine: aSeaImage pharoVersion
+				   osname: OSPlatform current name)
 ]
 
 { #category : #'as yet unclassified' }
 SeaStarter >> startInstanceImage: aSeaImage virtualMachine: aSeaVirtualMachine [
 
-	LibC runCommand: ('{1} {2} & ' format: ({
-				  aSeaVirtualMachine pharoUiScript.
-				  aSeaImage imageFile } collect: [ :a |
-				  a fullName copyReplaceAll: ' ' with: '\ ' ]))
-]
+	| instance process |
+	process := OSSUnixSubprocess new.
+	process workingDirectory: aSeaImage directory fullName.
 
-{ #category : #'as yet unclassified' }
-SeaStarter >> virtualMachineRepository [
+	process loginShellCommand: ('"{1}" "{2}"' format: {
+				 (aSeaVirtualMachine directory / 'pharo-vm' / 'Pharo.app'
+				  / 'Contents' / 'MacOS' / 'Pharo') fullName.
+				 aSeaImage imageFile fullName }).
+	process run.
+	instance := SeaRunningInstance new
+		            image: aSeaImage;
+		            virtualMachine: aSeaVirtualMachine;
+		            process: process;
+		            yourself.
 
-	^ SeaLocalRepository new virtualMachinesRepository
+	^ instance
 ]

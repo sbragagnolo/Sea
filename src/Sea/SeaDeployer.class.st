@@ -3,11 +3,7 @@ I am in charge of deploying zip files into a local repository.
 "
 Class {
 	#name : #SeaDeployer,
-	#superclass : #Object,
-	#instVars : [
-		'imagesRepository',
-		'virtualMachineRepository'
-	],
+	#superclass : #SeaService,
 	#category : #'Sea-Core'
 }
 
@@ -17,16 +13,13 @@ SeaDeployer >> deployImageZip: aFileReference name: aString [
 	| repo newImage |
 	repo := imagesRepository repositoryFor: aString.
 	newImage := repo newImage.
-
-	self assert: newImage directory exists not.
-
+	newImage directory exists ifTrue: [
+		^ self error:
+			  'The image directory already exists. Delete it to proceed' ].
 	newImage directory ensureCreateDirectory.
-	
-	LibC system: ('unzip {1} -d {2}' format: {
-				 aFileReference asFileReference fullName.
-				 newImage directory asFileReference fullName }).
-	self assert: newImage directory exists.
-	self assert: (newImage directory / 'pharo.version') exists.
+	self unzip: newImage into: aFileReference.
+	self ensureNoMissingFiles: newImage.
+
 	^ newImage
 ]
 
@@ -40,24 +33,28 @@ SeaDeployer >> deployVmZip: aFileReference version: aVersion [
 	self assert: newVirtualMachine directory exists not.
 
 	newVirtualMachine directory ensureCreateDirectory.
+	self unzip: newVirtualMachine into: aFileReference.
+	self ensureNoMissingFiles: newVirtualMachine.
 
-	LibC system: ('unzip {1} -d {2}' format: {
-				 aFileReference asFileReference fullName.
-				 newVirtualMachine directory asFileReference fullName }).
-	self assert: newVirtualMachine directory exists.
-	self assert: (newVirtualMachine directory / 'pharo.version') exists.
-	self assert: (newVirtualMachine directory / 'os.name') exists.
+	osname := newVirtualMachine osname.
 
-	osname := (newVirtualMachine directory / 'os.name') readStream
-		          upToEnd.
-	osname copyFrom: 1 to: (osname size min: 10).
 	(repo directory / osname) exists ifTrue: [
 		newVirtualMachine directory deleteAll.
 		^ self error: 'Already exists' ].
 	newVirtualMachine directory renameTo: osname.
-	newVirtualMachine osname: osname.
+
 
 	^ newVirtualMachine
+]
+
+{ #category : #deploy }
+SeaDeployer >> ensureNoMissingFiles: anEntity [
+
+	anEntity missingFiles ifNotEmpty: [ :files |
+		self error:
+			('Cannot continue deploying. The following files are missing {1}'
+				 format:
+				 { (String crlf join: (files collect: [ :f | f basename ])) }) ]
 ]
 
 { #category : #deploy }
@@ -68,18 +65,17 @@ SeaDeployer >> eraseRepository [
 ]
 
 { #category : #deploy }
-SeaDeployer >> initialize [
-
-	super initialize.
-	imagesRepository := SeaLocalRepository new imagesRepository.
-	virtualMachineRepository := SeaLocalRepository new
-		                            virtualMachinesRepository
-]
-
-{ #category : #deploy }
 SeaDeployer >> resolveVirtualMachine: aVersionNumber [
 	virtualMachineRepository virtualMachinesVersion: aVersionNumber ifNone: [ 
 		
 	
 	 ]
+]
+
+{ #category : #deploy }
+SeaDeployer >> unzip: newVirtualMachine into: aFileReference [
+
+	LibC system: ('unzip {1} -d {2}' format: {
+				 aFileReference asFileReference fullName.
+				 newVirtualMachine directory asFileReference fullName })
 ]

@@ -11,7 +11,8 @@ Class {
 		'changesFile',
 		'tags',
 		'directory',
-		'repository'
+		'repository',
+		'sourcesFile'
 	],
 	#category : #'Sea-Core'
 }
@@ -62,6 +63,29 @@ SeaImage >> inferImageFile [
 ]
 
 { #category : #accessing }
+SeaImage >> inferSourcesFile [
+
+	^ self ensureSingleEntry:
+		  (directory entries select: [ :d | d extension = 'sources' ])
+]
+
+{ #category : #accessing }
+SeaImage >> missingFiles [
+
+	^ {
+		  self directory.
+		  (self directory / 'pharo.version').
+		  self imageFile.
+		  self changesFile.
+		  self sourcesFile } reject: [ :f | f exists ]
+]
+
+{ #category : #accessing }
+SeaImage >> name [
+	^ name
+]
+
+{ #category : #accessing }
 SeaImage >> name: anUndefinedObject [ 
 	name := anUndefinedObject
 ]
@@ -69,7 +93,7 @@ SeaImage >> name: anUndefinedObject [
 { #category : #accessing }
 SeaImage >> newInstance [
 
-	^ SeaImageInstance new
+	^ SeaRunningInstance new
 		  image: self;
 		  pid: self spawnInstance;
 		  yourself
@@ -78,13 +102,25 @@ SeaImage >> newInstance [
 { #category : #'as yet unclassified' }
 SeaImage >> pharoVersion [
 
-	^ (self directory / 'pharo.version') readStream upToEnd asNumber
+	^ self pharoVersionFile readStream upToEnd asNumber
+]
+
+{ #category : #'as yet unclassified' }
+SeaImage >> pharoVersionFile [
+
+	^ (self directory / 'pharo.version') 
 ]
 
 { #category : #accessing }
 SeaImage >> repository: aSeaImageRepository [
 
 	repository := aSeaImageRepository
+]
+
+{ #category : #accessing }
+SeaImage >> sourcesFile [
+
+	^ sourcesFile ifNil: [ sourcesFile := self inferSourcesFile ]
 ]
 
 { #category : #accessing }

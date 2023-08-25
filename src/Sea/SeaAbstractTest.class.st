@@ -11,7 +11,7 @@ Class {
 SeaAbstractTest >> setUp [
 
 	super setUp.
-	sea := Sea deployer.
+	sea := Sea deployer .
 	
 ]
 
